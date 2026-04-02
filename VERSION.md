@@ -1,6 +1,15 @@
 # LittleLink Version History
 
-## Current Version: v3.7.0
+## Current Version: v3.10.0
+
+### v3.10.0 - 01/27/2026
+- Added quick deploy files for Cloudflare & DigitalOcean.
+
+### v3.9.0 - 07/25/2025
+- Fixed Unsplash Icon [PR #161](https://github.com/sethcottle/littlelink/pull/161), thanks to [@majal](https://github.com/majal)
+
+### v3.8.0 - 06/29/2025
+- Added pre-commit for auto-lint the files before commit them [PR #158](https://github.com/sethcottle/littlelink/pull/158), thanks to [@luclis](https://github.com/luclis).
 
 ### v3.7.0 - 4/18/2025
 - Added [Meetup](https://www.meetup.com/).

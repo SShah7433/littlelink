@@ -25,10 +25,14 @@ LittleLink epitomizes simplicity and minimalism. When evaluating the [LittleLink
 
 ![Publish](https://cdn.cottle.cloud/GitHub/LittleLink/test/css/deploy.gif)
 
-No need for gulp, npm, or anything else to make LittleLink work—it uses the bare essentials. You can automatically fork and deploy LittleLink with [Vercel](https://vercel.com/), [Netlify](https://www.netlify.com/), or [Amplify](https://aws.amazon.com/amplify) using the button below. LittleLink is also easy to host through [GitHub Pages](https://pages.github.com/) or on your home lab server, CDN, or other frontend hosting services. To edit, all you need is a little basic HTML knowledge to add a link to the exisiting buttons or you can create your own. See our [adding custom buttons to your own fork wiki](https://github.com/sethcottle/littlelink/wiki/Adding-custom-buttons-to-your-own-fork). It's simple, promise. 🤞
+No need for gulp, npm, or anything else to make LittleLink work—it uses the bare essentials. You can automatically fork and deploy LittleLink with [Cloudflare](https://workers.cloudflare.com/), [DigitalOcean](https://www.digitalocean.com/products/app-platform), [Vercel](https://vercel.com/), [Netlify](https://www.netlify.com/), or [Amplify](https://aws.amazon.com/amplify) using the buttons below. LittleLink is also easy to host through [GitHub Pages](https://pages.github.com/) or on your home lab server, CDN, or other frontend hosting services. To edit, all you need is a little basic HTML knowledge to add a link to the exisiting buttons or you can create your own. See our [adding custom buttons to your own fork wiki](https://github.com/sethcottle/littlelink/wiki/Adding-custom-buttons-to-your-own-fork). It's simple, promise. 🤞
 
 ---
 ##### One-Click Deployments
+
+[![Deploy to Cloudflare](https://cdn.cottle.cloud/littlelink/button-deploy-cloudflare.svg)](https://deploy.workers.cloudflare.com/?url=https://github.com/sethcottle/littlelink)
+
+[![Deploy to DigitalOcean](https://cdn.cottle.cloud/littlelink/button-deploy-digitalocean.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/sethcottle/littlelink/tree/main)
 
 [![Deploy to Vercel](https://cdn.cottle.cloud/littlelink/button-deploy-vercel.svg)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsethcottle%2Flittlelink&project-name=littlelink&repository-name=littlelink)
 

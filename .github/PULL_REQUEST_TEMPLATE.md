@@ -30,6 +30,7 @@ Please confirm that you've met the following criteria before submitting your con
    - [ ] Included a brief description of the brand addition.
    - [ ] Included a screenshot of the new button(s).  
    - [ ] Provided relevant information on the brand’s global/regional reach or usage stats.  
+   - [ ] Bumped VERSION.md / Major.Minor.Patch (you'll likely want to bump minor if you're just adding a new brand or making a small tweak)
 
 ---
 
