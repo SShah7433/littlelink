@@ -1,0 +1,24 @@
+{
+  "name": "littlelink",
+  "version": "1.0.0",
+  "description": "![Logo](https://cdn.cottle.cloud/GitHub/LittleLink/littlelink.gif)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SShah7433/littlelink.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SShah7433/littlelink/issues"
+  },
+  "homepage": "https://github.com/SShah7433/littlelink#readme",
+  "dependencies": {
+    "postal-mime": "^2.7.4"
+  }
+}
