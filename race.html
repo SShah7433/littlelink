@@ -148,13 +148,22 @@
     <script>
       function updateViewportScroll() {
         const root = document.documentElement;
+        const shell = document.querySelector(".race-shell");
+        const card = document.querySelector(".race-card");
         root.classList.remove("page-fits-viewport");
 
-        const pageHeight = Math.max(root.scrollHeight, document.body.scrollHeight);
-        root.classList.toggle("page-fits-viewport", pageHeight <= window.innerHeight + 1);
+        const shellStyles = window.getComputedStyle(shell);
+        const requiredHeight =
+          card.getBoundingClientRect().height +
+          Number.parseFloat(shellStyles.paddingTop) +
+          Number.parseFloat(shellStyles.paddingBottom);
+        const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+
+        root.classList.toggle("page-fits-viewport", requiredHeight <= viewportHeight + 1);
       }
 
       window.addEventListener("resize", updateViewportScroll);
+      window.visualViewport?.addEventListener("resize", updateViewportScroll);
       window.addEventListener("load", updateViewportScroll);
       document.fonts?.ready.then(updateViewportScroll);
       requestAnimationFrame(updateViewportScroll);
