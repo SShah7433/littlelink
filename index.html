@@ -124,7 +124,7 @@
 
               <!-- Customized Buttons -->
               <!-- Race Tracking -->
-              <a class="button button-race-tracking" href="/race" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-map.svg" alt="">Race Tracking</a>
+              <a id="race-tracking-button" class="button button-race-tracking" href="/race" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-map.svg" alt="">Race Tracking</a>
 
               <!-- Strava -->
               <a class="button button-strava" href="https://www.strava.com/athletes/siddshah" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/strava.svg" alt="Strava Logo">Strava</a>
@@ -147,6 +147,31 @@
 
     </div>
   </div>
+
+<script>
+  const raceTrackingButton = document.getElementById("race-tracking-button");
+
+  raceTrackingButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("/api/race-status", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("Unable to check race status");
+      }
+
+      const { livetrackUrl } = await response.json();
+      if (livetrackUrl) {
+        window.location.assign(livetrackUrl);
+        return;
+      }
+
+      window.location.assign(raceTrackingButton.href);
+    } catch (error) {
+      window.location.assign(raceTrackingButton.href);
+    }
+  });
+</script>
 
 </body>
 

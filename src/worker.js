@@ -3,6 +3,7 @@ import PostalMime from "postal-mime";
 const LIVETRACK_REGEX = /https:\/\/livetrack\.garmin\.com\/session\/[a-zA-Z0-9\-_/]+/;
 const TWENTY_FOUR_HOURS = 86400;
 const RACE_PAGE_PATHS = new Set(["/race", "/race/", "/race.html"]);
+const RACE_STATUS_PATH = "/api/race-status";
 
 export default {
   async email(message, env, ctx) {
@@ -29,6 +30,21 @@ export default {
 
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    if (url.pathname === RACE_STATUS_PATH) {
+      if (request.method !== "GET") {
+        return new Response("Method Not Allowed", {
+          status: 405,
+          headers: { Allow: "GET" },
+        });
+      }
+
+      const livetrackUrl = await env.LIVETRACK_KV.get("livetrack:current");
+      return Response.json(
+        { livetrackUrl },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    }
 
     if (RACE_PAGE_PATHS.has(url.pathname)) {
       const livetrackUrl = await env.LIVETRACK_KV.get("livetrack:current");

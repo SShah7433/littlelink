@@ -131,24 +131,61 @@
 
     <script>
       const refreshIntervalMs = 60_000;
+      const raceStatusEndpoint = "/api/race-status";
       const status = document.getElementById("refresh-status");
       const refreshButton = document.getElementById("refresh-button");
       const startedAt = Date.now();
+      let nextCheckAt = startedAt + refreshIntervalMs;
+      let refreshTimer;
 
-      function refreshPage() {
-        window.location.reload();
+      function setStatus(message) {
+        status.innerHTML = `<span class="refresh-dot" aria-hidden="true"></span>${message}`;
       }
 
       function updateStatus() {
-        const elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
-        const remainingSeconds = Math.max(0, Math.ceil((refreshIntervalMs / 1000) - elapsedSeconds));
-        status.innerHTML = `<span class="refresh-dot" aria-hidden="true"></span>Checking again in ${remainingSeconds} second${remainingSeconds === 1 ? "" : "s"}`;
+        const remainingSeconds = Math.max(0, Math.ceil((nextCheckAt - Date.now()) / 1000));
+        setStatus(`Checking again in ${remainingSeconds} second${remainingSeconds === 1 ? "" : "s"}`);
       }
 
-      refreshButton.addEventListener("click", refreshPage);
+      async function checkForLiveTrack() {
+        refreshButton.disabled = true;
+        refreshButton.textContent = "Checking…";
+
+        try {
+          const response = await fetch(raceStatusEndpoint, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error("Unable to check race status");
+          }
+
+          const { livetrackUrl } = await response.json();
+          if (livetrackUrl) {
+            setStatus("Live tracking is ready. Redirecting…");
+            window.location.assign(livetrackUrl);
+          }
+        } catch (error) {
+          setStatus("Could not check yet. We'll try again automatically.");
+        } finally {
+          refreshButton.disabled = false;
+          refreshButton.textContent = "Refresh now";
+        }
+      }
+
+      function scheduleNextCheck() {
+        window.clearTimeout(refreshTimer);
+        nextCheckAt = Date.now() + refreshIntervalMs;
+        refreshTimer = window.setTimeout(async () => {
+          await checkForLiveTrack();
+          scheduleNextCheck();
+        }, refreshIntervalMs);
+      }
+
+      refreshButton.addEventListener("click", async () => {
+        await checkForLiveTrack();
+        scheduleNextCheck();
+      });
       updateStatus();
       window.setInterval(updateStatus, 1_000);
-      window.setTimeout(refreshPage, refreshIntervalMs);
+      scheduleNextCheck();
     </script>
   </body>
 </html>
