@@ -33,6 +33,61 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/brands.css">
+    <style>
+      .home-page {
+        background:
+          radial-gradient(circle at top, rgba(0, 124, 195, 0.24), transparent 34rem),
+          #343434;
+      }
+
+      .home-shell {
+        box-sizing: border-box;
+        display: grid;
+        width: min(100%, 37.5rem);
+        min-height: 100vh;
+        place-items: center;
+        padding: 2rem 1.25rem;
+      }
+
+      .home-card {
+        width: min(100%, 31rem);
+        padding: clamp(2rem, 7vw, 3.5rem);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 1.5rem;
+        background: rgba(52, 52, 52, 0.78);
+        box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+        text-align: center;
+      }
+
+      .home-card .avatar {
+        width: 5.5rem;
+        height: 5.5rem;
+        margin-bottom: 1.5rem;
+        border: 3px solid rgba(72, 153, 247, 0.65);
+        border-radius: 50%;
+        box-shadow: 0 0 0 0.5rem rgba(72, 153, 247, 0.1);
+      }
+
+      .home-card h1 {
+        margin-bottom: 2rem;
+        font-size: clamp(2.25rem, 7vw, 3.3rem);
+      }
+
+      .home-card .button-stack {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .home-card .button {
+        width: 100%;
+        margin: 0;
+        border-radius: 0.75rem;
+      }
+
+      .home-card footer {
+        margin: 0;
+      }
+    </style>
 
     <!-- LittleLink Extended Stylesheet (Optional) -->
     <!-- <link rel="stylesheet" href="css/brands-extended.css"> -->
@@ -41,10 +96,10 @@
 
   </head>
 
-<body>
+<body class="home-page">
 
-    <div class="container">
-        <div class="column">
+    <div class="container home-shell">
+        <div class="column home-card">
 
             <!--
               By default, the Avatar is rounded. Use the following:
