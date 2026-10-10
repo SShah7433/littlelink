@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/brands.css">
     <style>
       .race-page {
+        min-height: 100dvh;
         background:
           radial-gradient(circle at top, rgba(0, 124, 195, 0.24), transparent 34rem),
           #343434;
@@ -22,6 +23,7 @@
         box-sizing: border-box;
         display: grid;
         min-height: 100vh;
+        min-height: 100dvh;
         place-items: center;
         padding: 2rem 1.25rem;
       }
@@ -116,6 +118,11 @@
           transition: none;
         }
       }
+
+      html.page-fits-viewport,
+      html.page-fits-viewport body {
+        overflow: hidden;
+      }
     </style>
   </head>
 
@@ -139,6 +146,19 @@
     </main>
 
     <script>
+      function updateViewportScroll() {
+        const root = document.documentElement;
+        root.classList.remove("page-fits-viewport");
+
+        const pageHeight = Math.max(root.scrollHeight, document.body.scrollHeight);
+        root.classList.toggle("page-fits-viewport", pageHeight <= window.innerHeight + 1);
+      }
+
+      window.addEventListener("resize", updateViewportScroll);
+      window.addEventListener("load", updateViewportScroll);
+      document.fonts?.ready.then(updateViewportScroll);
+      requestAnimationFrame(updateViewportScroll);
+
       const refreshIntervalMs = 60_000;
       const raceStatusEndpoint = "/api/race-status";
       const status = document.getElementById("refresh-status");
