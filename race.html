@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html class="theme-dark" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Race status | Sidd Shah</title>
+    <meta name="description" content="Live race tracking status for Sidd Shah.">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/x-icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/brands.css">
+    <style>
+      .race-page {
+        background:
+          radial-gradient(circle at top, rgba(0, 124, 195, 0.24), transparent 34rem),
+          #343434;
+      }
+
+      .race-shell {
+        box-sizing: border-box;
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        padding: 2rem 1.25rem;
+      }
+
+      .race-card {
+        width: min(100%, 31rem);
+        padding: clamp(2rem, 7vw, 3.5rem);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 1.5rem;
+        background: rgba(52, 52, 52, 0.78);
+        box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+        text-align: center;
+      }
+
+      .race-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        padding: 0.45rem 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        color: #dceeff;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .race-badge-dot,
+      .refresh-dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: #4899f7;
+        box-shadow: 0 0 0 0.25rem rgba(72, 153, 247, 0.16);
+      }
+
+      .race-avatar {
+        width: 5.5rem;
+        height: 5.5rem;
+        margin-bottom: 1.5rem;
+        border: 3px solid rgba(72, 153, 247, 0.65);
+        border-radius: 50%;
+        box-shadow: 0 0 0 0.5rem rgba(72, 153, 247, 0.1);
+      }
+
+      .race-card h1 {
+        margin-bottom: 1rem;
+        font-size: clamp(2.25rem, 7vw, 3.3rem);
+      }
+
+      .race-message {
+        max-width: 25rem;
+        margin: 0 auto 1.5rem;
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      .refresh-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        margin: 0 auto 1.75rem;
+        color: #dceeff;
+        font-size: 0.95rem;
+      }
+
+      .refresh-button {
+        width: min(100%, 18.75rem);
+        margin: 0;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 124, 195, 0.24);
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .refresh-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 1rem 2rem rgba(0, 124, 195, 0.34);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .refresh-button {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="race-page">
+    <main class="race-shell">
+      <section class="race-card" aria-labelledby="race-status-heading">
+        <div class="race-badge"><span class="race-badge-dot" aria-hidden="true"></span>Live race tracking</div>
+        <img class="avatar race-avatar" src="/images/avatar.jpg" alt="Sidd Shah">
+        <h1 id="race-status-heading">Race has not started</h1>
+        <p class="race-message">
+          This page will automatically redirect to Garmin LiveTrack when it becomes available.
+        </p>
+        <p id="refresh-status" class="refresh-status" aria-live="off">
+          <span class="refresh-dot" aria-hidden="true"></span>Checking again in 60 seconds
+        </p>
+        <button id="refresh-button" class="button button-garmin refresh-button" type="button">
+          Refresh now
+        </button>
+      </section>
+    </main>
+
+    <script>
+      const refreshIntervalMs = 60_000;
+      const status = document.getElementById("refresh-status");
+      const refreshButton = document.getElementById("refresh-button");
+      const startedAt = Date.now();
+
+      function refreshPage() {
+        window.location.reload();
+      }
+
+      function updateStatus() {
+        const elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
+        const remainingSeconds = Math.max(0, Math.ceil((refreshIntervalMs / 1000) - elapsedSeconds));
+        status.innerHTML = `<span class="refresh-dot" aria-hidden="true"></span>Checking again in ${remainingSeconds} second${remainingSeconds === 1 ? "" : "s"}`;
+      }
+
+      refreshButton.addEventListener("click", refreshPage);
+      updateStatus();
+      window.setInterval(updateStatus, 1_000);
+      window.setTimeout(refreshPage, refreshIntervalMs);
+    </script>
+  </body>
+</html>

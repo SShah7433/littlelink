@@ -2,9 +2,17 @@ import PostalMime from "postal-mime";
 
 const LIVETRACK_REGEX = /https:\/\/livetrack\.garmin\.com\/session\/[a-zA-Z0-9\-_/]+/;
 const TWENTY_FOUR_HOURS = 86400;
+const RACE_PAGE_PATHS = new Set(["/race", "/race/", "/race.html"]);
 
 export default {
   async email(message, env, ctx) {
+    const from = message.from;
+
+    if (from !== "noreply@garmin.com") {
+      // not a garmin email
+      return
+    }
+
     const rawEmail = await new Response(message.raw).arrayBuffer();
     const parser = new PostalMime();
     const parsed = await parser.parse(rawEmail);
@@ -20,30 +28,29 @@ export default {
   },
 
   async fetch(request, env, ctx) {
-    const assetResponse = await env.ASSETS.fetch(request);
+    const url = new URL(request.url);
 
-    const contentType = assetResponse.headers.get("content-type") || "";
-    if (!contentType.includes("text/html")) {
-      return assetResponse;
-    }
+    if (RACE_PAGE_PATHS.has(url.pathname)) {
+      const livetrackUrl = await env.LIVETRACK_KV.get("livetrack:current");
 
-    const livetrackUrl = await env.LIVETRACK_KV.get("livetrack:current");
+      if (livetrackUrl) {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: livetrackUrl,
+            "Cache-Control": "no-store",
+          },
+        });
+      }
 
-    const response = new Response(assetResponse.body, assetResponse);
-    response.headers.set("Cache-Control", "no-store");
-
-    if (!livetrackUrl) {
+      const racePageUrl = new URL(request.url);
+      racePageUrl.pathname = "/race.html";
+      const racePageResponse = await env.ASSETS.fetch(racePageUrl);
+      const response = new Response(racePageResponse.body, racePageResponse);
+      response.headers.set("Cache-Control", "no-store");
       return response;
     }
 
-    const buttonHtml = `<a class="button button-garmin" href="${livetrackUrl}" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="/images/icons/garmin.svg" alt="Garmin Logo">Track my Run</a>`;
-
-    return new HTMLRewriter()
-      .on(".button-stack", {
-        element(el) {
-          el.prepend(buttonHtml, { html: true });
-        },
-      })
-      .transform(response);
+    return env.ASSETS.fetch(request);
   },
 };

@@ -1,0 +1,4 @@
+# Development dependencies and local Worker state are not public assets.
+node_modules/
+.wrangler/
+.git/

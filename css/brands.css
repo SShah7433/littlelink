@@ -38,6 +38,13 @@
 	--button-border:1px solid #ffffff;
 }
 
+/* Race Tracking */
+.button-race-tracking {
+	--button-text:#ffffff;
+	--button-background:#007CC3;
+	--button-border:none;
+}
+
 /* Amazon */
 .button-amazon {
 	--button-text:#000000;
