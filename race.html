@@ -103,6 +103,14 @@
         box-shadow: 0 1rem 2rem rgba(0, 124, 195, 0.34);
       }
 
+      .back-home-button {
+        margin: 1rem 0 0;
+        border-radius: 0.75rem;
+        --button-text: #dceeff;
+        --button-background: rgba(255, 255, 255, 0.1);
+        --button-border: none;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .refresh-button {
           transition: none;
@@ -126,6 +134,7 @@
         <button id="refresh-button" class="button button-garmin refresh-button" type="button">
           Refresh now
         </button>
+        <a class="button back-home-button" href="/">Go back to home</a>
       </section>
     </main>
 
